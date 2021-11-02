@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FG.</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="twitter:" content="">
+	<meta name="author" content="Fernando Olivera" />
+	<meta name="description" content="Back and Front-end Web developer for all bussines and low-cost price">
+	<link rel="shortcut icon" href="img/favicon.png" />
+	<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+		html, body{
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			display: flex;
+			perspective: 1000px;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			font-family: 'Open Sans', sans-serif;
+			/* background: url('https://i.pinimg.com/originals/f4/52/a2/f452a2f4b634b3011e065da8eaf0a5c3.gif'); */
+			background-position: 0px 0px;
+			user-select: none;
+			/* transition: background-position .05s ease; */
+		}
+		body{
+			background: url('img/bg.jpg');
+		}
+		.content {
+			width: 350px;
+			height: 200px;
+			background: rgba(0,0,0,0.35);
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			position: relative;
+			border-radius: 6px;
+			cursor: pointer;
+			box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.2);
+			/* background: url('https://cdn.lowgif.com/full/3fdb6e6221907c26-binary-code-gifs-search-find-make-share-gfycat-gifs.gif'); */
+			background-image: url('img/logo.svg');
+			background-color: #ffffff;
+			background-position: center;
+			background-repeat:  no-repeat;
+			background-size: contain;
+			transition: transform .01s ease;
+			/* transition-delay: .01s; */
+		}
+		.content span{
+			width: calc(100% - 15px);
+			height: calc(100% - 15px);
+			position: relative;
+			background: rgba(0,0,0,0.2);
+			display: flex;
+			margin: auto
+		}
+		.content span h2{
+			text-align: center;
+			width: 100%;
+			color: white;
+			position: relative;
+			margin: auto;
+			background: rgba(0, 0, 0, 0.5);
+		}
+		.wind {
+			width: calc(100% - 50px);
+			height: 50%;
+			background: rgba(0,0,0,0.35);
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			position: relative;
+			border-radius: 6px;
+			transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+			transition: all .5s ease;
+		}
+	</style>
+</head>
+<body id="body">
+	<script type="text/javascript">
+		const $ = x => document.querySelector(x); // Selector
+		const angle = 20; // Margen de rotacion (deg)
+		const despl = 50; // Desplazamiento maximo del backgound (px)
+		const mobile = ['Android','webOS','Phone','Pad','Pod','BlackBerry','Windows Phone'].reduce((x, y) => {
+									 	return x || (navigator.userAgent.match(RegExp(y,'i')) != null);
+								 	}, false);
+		if(mobile){
+			window.addEventListener('deviceorientation', (x) => {
+				if(x.alpha && x.beta && x.gamma){
+					$('div.content').style.transform = `rotateX(${angle*((90-x.beta)/90)}deg) rotateY(${angle*((x.alpha)/90)}deg)`;
+					$('body').style.backgroundPosition = `${despl*((x.alpha)/90)}px ${despl*((90-x.beta)/90)}px`;
+				}
+			});
+		}
+		window.addEventListener('deviceorientation', (x) => {
+			if(x.alpha && x.beta && x.gamma){
+				$('div.content').style.transform = `rotateX(${-1*angle*((90-x.beta)/90)}deg) rotateY(${-1*angle*((x.alpha)/90)}deg)`;
+				$('body').style.backgroundPosition = `${despl*((x.alpha)/90)}px ${despl*((90-x.beta)/90)}px`;
+			}
+		});
+		$('body').addEventListener(mobile ? 'touchmove' : 'mousemove', (x) => {
+			let {i, j, ww, wh, element} = {i: mobile ? x.changedTouches[0].clientX : x.clientX, j: mobile ? x.changedTouches[0].clientY : x.clientY, ww:window.innerWidth, wh:window.innerHeight, element: $('div.content')};
+			if(element!= null){
+				element.style.transform = `rotateX(${angle*((j-(wh/2))/(wh/2))}deg) rotateY(${-1*angle*((i-(ww/2))/(ww/2))}deg)`;
+			}
+			$('body').style.backgroundPosition = `${despl*((i-(ww/2))/(ww/2))}px ${despl*((j-(ww/2))/(ww/2))}px`;
+		});
+		// alert(`You are using a ${mobile ? 'mobile' : 'desktop'} browser`)
+	</script>
+	<div class="content" title="Click Me!">
+		<span>
+			<h2>Site under construction</h2>
+		</span>
+	</div>
+</body>
+</html>
